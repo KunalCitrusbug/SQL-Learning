@@ -1,0 +1,112 @@
+=====================================================================================
+Answer 1:
+
+SELECT core_playlist.name, core_language.title
+FROM core_playlist
+INNER JOIN core_playlist_song ON core_playlist.id = core_playlist_song.playlist_id
+INNER JOIN core_song ON core_playlist_song.song_id = core_song.id
+INNER JOIN core_language ON core_language.id = core_song.language_id   
+=====================================================================================
+Answer 2:
+
+SELECT core_playlist.name as playlist, core_genre.title as genre , Core_song_artist.artist_id
+FROM core_playlist
+INNER JOIN core_playlist_song ON core_playlist.id = core_playlist_song.playlist_id
+INNER JOIN Core_song_artist ON core_playlist_song.song_id = Core_song_artist.song_id
+INNER JOIN core_usergenre ON core_playlist.user_id = core_usergenre.user_id 
+INNER JOIN core_genre ON core_genre.id = core_usergenre.genre_id 
+=====================================================================================
+Answer 3:
+
+SELECT core_song.name as song, core_artist.name as artist, core_song.genre_id
+FROM core_artist
+INNER JOIN Core_song_artist ON core_artist.id = Core_song_artist.artist_id
+INNER JOIN core_song ON core_song.id = Core_song_artist.song_id
+=====================================================================================
+Answer 4:
+
+SELECT core_playlist.id as playlist_id,core_playlist.name as playlist_name, core_playlist.user_id as playlist_userID,core_playlist.created_at,
+core_song.id as song_id,core_song.name as song_name,core_song.genre_id,core_song.language_id as song_language,core_song_artist.artist_id 
+FROM core_playlist
+INNER JOIN core_playlist_song ON core_playlist.id = core_playlist_song.playlist_id
+INNER JOIN core_song ON core_playlist_song.song_id = core_song.id
+INNER JOIN core_song_artist ON core_song_artist.song_id = core_playlist_song.song_id  
+=====================================================================================
+Answer 5:
+
+SELECT core_artist.name as artist_name, count (core_song.name) as no_of_songs
+FROM core_song
+INNER JOIN core_song_artist ON core_song.id = core_song_artist.song_id
+INNER JOIN core_artist ON core_artist.id = core_song_artist.artist_id
+group by core_artist.name
+=====================================================================================
+Answer 6:
+
+SELECT core_playlist.id as playlist_id,core_artist.id as artist_id,core_artist.name as artist_name,
+core_song.id as song_id,core_song.name as song_name
+FROM core_playlist
+INNER JOIN core_playlist_song ON core_playlist.id = core_playlist_song.playlist_id
+INNER JOIN core_song_artist ON core_playlist_song.song_id = core_song_artist.song_id
+INNER JOIN core_song ON core_song.id = core_song_artist.song_id
+INNER JOIN core_artist ON core_artist.id = core_song_artist.artist_id
+=====================================================================================
+Answer 7:
+
+SELECT core_playlist.name as playlist, core_song.name as song,Core_playlistsongorder.order as order,
+core_artist.name as artist,core_artist.image as artist_image
+FROM core_playlist
+INNER JOIN Core_playlistsongorder ON core_playlist.id = Core_playlistsongorder.playlist_id
+INNER JOIN core_song_artist ON Core_playlistsongorder.song_id = core_song_artist.song_id
+INNER JOIN core_artist ON core_artist.id = core_song_artist.artist_id
+INNER JOIN core_song ON core_song.id = core_song_artist.song_id
+=====================================================================================
+Answer 8:
+
+INSERT INTO core_playlist VALUES
+  (100001,'HINDI',1111,false,'2021-01-22 22:42:57.264744+05:30'),
+  (100002,'ENGLISH',1112,true,'2021-01-22 22:42:57.264744+05:30')
+=====================================================================================
+Answer 9:
+
+CREATE VIEW data_vieww AS
+SELECT core_playlist.id as playlist_id,core_playlist.name as playlist,
+core_song.id as song_id,core_song.name as song,core_artist.id as artist_id,core_artist.name as artist
+FROM core_playlist
+INNER JOIN Core_playlistsongorder ON core_playlist.id = Core_playlistsongorder.playlist_id
+INNER JOIN core_song_artist ON Core_playlistsongorder.song_id = core_song_artist.song_id
+INNER JOIN core_artist ON core_artist.id = core_song_artist.artist_id
+INNER JOIN core_song ON core_song.id = core_song_artist.song_id
+
+=====================================================================================
+Answer 10:
+
+SELECT CORE_PLAYLIST.NAME AS playlist,
+count(core_song_artist.artist_id) as artist
+FROM CORE_PLAYLIST
+INNER JOIN CORE_PLAYLIST_SONG ON CORE_PLAYLIST.ID = CORE_PLAYLIST_SONG.PLAYLIST_ID
+INNER JOIN CORE_SONG ON CORE_PLAYLIST_SONG.SONG_ID = CORE_SONG.ID 
+INNER JOIN core_song_artist on core_song_artist.song_id = core_song.id 
+INNER JOIN core_artist on core_song_artist.artist_id=core_artist.id
+GROUP BY playlist having count(DISTINCT core_song_artist.artist_id) =1
+=====================================================================================
+Answer 11:
+
+SELECT CORE_PLAYLIST.NAME AS playlist,
+count(core_genre.id) as artist
+FROM CORE_PLAYLIST
+INNER JOIN CORE_PLAYLIST_SONG on CORE_PLAYLIST.ID = CORE_PLAYLIST_SONG.PLAYLIST_ID
+INNER JOIN CORE_SONG on CORE_PLAYLIST_SONG.SONG_ID = CORE_SONG.ID
+INNER JOIN core_song_artist on core_song_artist.song_id = core_song.id 
+INNER JOIN core_genre on core_song.genre_id=core_genre.id
+GROUP BY playlist having count(DISTINCT core_genre.id) =1
+=====================================================================================
+Answer 12:
+
+SELECT core_playlist.name as playlist, core_song.name as liked_song_name
+FROM core_playlist
+INNER JOIN core_playlist_song ON core_playlist.id = core_playlist_song.playlist_id
+INNER JOIN core_songlike ON core_playlist_song.song_id = core_songlike.song_id
+INNER JOIN core_song ON core_song.id = core_songlike.song_id 
+=====================================================================================
+
+
